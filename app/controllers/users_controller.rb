@@ -16,6 +16,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.new(user_params)
+    
+    if @user.save
+      redirect_to new_user_path
+    else
+      puts @user.errors.full_messages
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   private 
   def user_params
     params.expect(user: [ :username, :email, :password] )
